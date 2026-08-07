@@ -1,21 +1,23 @@
 // scripts/sync-notion.js
 //
-// 노션 데이터베이스 2개를 읽어서 index.html을 자동으로 갱신합니다.
+// 노션 데이터베이스 3개를 읽어서 index.html을 자동으로 갱신합니다.
 //
 // 1) "수업 메모" DB → <!-- NOTION:NOTES:START/END --> 구간
 //    속성: 제목(title) / 완료(checkbox)
 //
 // 2) "링크모음" DB → 패들렛(<!-- NOTION:PADLET -->) / 바이브코딩(<!-- NOTION:VIBECODING -->) 구간
 //    속성: 제목(title) / 설명(rich_text) / URL(url) / 카테고리(select: "패들렛" 또는 "바이브코딩")
-//    → 카테고리 값에 따라 두 섹션 중 어디에 카드가 들어갈지 자동으로 나뉩니다.
-//    → 이 DB에 행을 추가하면 카드가 늘어나고, 삭제하면 카드도 사라집니다.
+//
+// 3) "커리큘럼" DB → <!-- NOTION:CURRICULUM:START/END --> 구간
+//    속성: 주차(title) / 주제(rich_text) / 내용(rich_text)
 //
 // 필요한 환경변수:
-//   NOTION_TOKEN     (2단계에서 발급받은 토큰)
-//   NOTION_DB_ID      (수업 메모 DB ID)
-//   NOTION_LINKS_DB_ID (링크모음 DB ID)
+//   NOTION_TOKEN        (2단계에서 발급받은 토큰)
+//   NOTION_DB_ID         (수업 메모 DB ID)
+//   NOTION_LINKS_DB_ID   (링크모음 DB ID)
+//   NOTION_CURR_DB_ID    (커리큘럼 DB ID)
 //
-// 실행: NOTION_TOKEN=... NOTION_DB_ID=... NOTION_LINKS_DB_ID=... node scripts/sync-notion.js
+// 실행: NOTION_TOKEN=... NOTION_DB_ID=... node scripts/sync-notion.js
 
 const { Client } = require('@notionhq/client');
 const fs = require('fs');
@@ -24,12 +26,17 @@ const path = require('path');
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const NOTION_DB_ID = process.env.NOTION_DB_ID;
 const NOTION_LINKS_DB_ID = process.env.NOTION_LINKS_DB_ID;
+const NOTION_CURR_DB_ID = process.env.NOTION_CURR_DB_ID;
 const PROP_TITLE = process.env.NOTION_PROP_TITLE || '이름';
 const PROP_DONE = process.env.NOTION_PROP_DONE || '완료';
 const LINK_PROP_TITLE = process.env.NOTION_LINK_PROP_TITLE || '제목';
 const LINK_PROP_DESC = process.env.NOTION_LINK_PROP_DESC || '설명';
 const LINK_PROP_URL = process.env.NOTION_LINK_PROP_URL || 'URL';
 const LINK_PROP_CATEGORY = process.env.NOTION_LINK_PROP_CATEGORY || '카테고리';
+const LINK_PROP_IMAGE = process.env.NOTION_LINK_PROP_IMAGE || '이미지';
+const CURR_PROP_WEEK = process.env.NOTION_CURR_PROP_WEEK || '주차';
+const CURR_PROP_TOPIC = process.env.NOTION_CURR_PROP_TOPIC || '주제';
+const CURR_PROP_DESC = process.env.NOTION_CURR_PROP_DESC || '내용';
 const INDEX_PATH = path.join(__dirname, '..', 'index.html');
 
 if (!NOTION_TOKEN || !NOTION_DB_ID) {
@@ -69,8 +76,11 @@ function replaceBetween(html, startMarker, endMarker, content) {
 
 function buildLinkCard(item) {
   const label = item.category ? escapeHtml(item.category).toUpperCase() : 'LINK';
+  const thumb = item.image
+    ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" />`
+    : label;
   return `        <a class="link-card" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener">
-          <div class="link-thumb">${label}</div>
+          <div class="link-thumb">${thumb}</div>
           <div class="link-body">
             <h3>${escapeHtml(item.title)} <span class="link-arrow">↗</span></h3>
             <p>${escapeHtml(item.desc)}</p>
@@ -92,7 +102,13 @@ async function syncLinks(html) {
     const desc = p[LINK_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
     const url = p[LINK_PROP_URL]?.url || '#';
     const category = p[LINK_PROP_CATEGORY]?.select?.name || '';
-    return { title, desc, url, category };
+    const imageFile = p[LINK_PROP_IMAGE]?.files?.[0];
+    const image = imageFile
+      ? imageFile.type === 'external'
+        ? imageFile.external?.url
+        : imageFile.file?.url
+      : '';
+    return { title, desc, url, category, image };
   });
 
   const padletItems = items.filter((i) => i.category === '패들렛');
@@ -116,9 +132,49 @@ async function syncLinks(html) {
   return html;
 }
 
+async function syncCurriculum(html) {
+  if (!NOTION_CURR_DB_ID) {
+    console.log('ℹ️ NOTION_CURR_DB_ID가 없어 커리큘럼 섹션은 건너뜁니다.');
+    return html;
+  }
+
+  const res = await notion.databases.query({ database_id: NOTION_CURR_DB_ID });
+
+  const rows = res.results.map((page) => {
+    const p = page.properties;
+    const week = p[CURR_PROP_WEEK]?.title?.map((t) => t.plain_text).join('') || '';
+    const topic = p[CURR_PROP_TOPIC]?.rich_text?.map((t) => t.plain_text).join('') || '';
+    const desc = p[CURR_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
+    return { week, topic, desc };
+  });
+
+  const rowsHtml = rows
+    .map(
+      (r) =>
+        `          <tr>
+            <td class="curr-week">${escapeHtml(r.week)}</td>
+            <td class="curr-topic">${escapeHtml(r.topic)}</td>
+            <td class="curr-desc">${escapeHtml(r.desc)}</td>
+          </tr>`
+    )
+    .join('\n');
+
+  html = replaceBetween(
+    html,
+    '<!-- NOTION:CURRICULUM:START -->',
+    '<!-- NOTION:CURRICULUM:END -->',
+    rowsHtml
+  );
+
+  console.log(`✅ 커리큘럼 ${rows.length}개 행 반영`);
+  return html;
+}
+
 async function main() {
   const res = await notion.databases.query({
     database_id: NOTION_DB_ID,
+    // 필요하면 정렬/필터를 여기에 추가하세요.
+    // sorts: [{ property: '순서', direction: 'ascending' }],
   });
 
   const items = res.results.map((page) => {
@@ -158,6 +214,7 @@ async function main() {
   );
 
   html = await syncLinks(html);
+  html = await syncCurriculum(html);
 
   fs.writeFileSync(INDEX_PATH, html, 'utf-8');
   console.log(`✅ ${items.length}개 항목으로 index.html 갱신 완료`);
