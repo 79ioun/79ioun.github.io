@@ -75,3 +75,95 @@ function buildLinkCard(item) {
             <h3>${escapeHtml(item.title)} <span class="link-arrow">↗</span></h3>
             <p>${escapeHtml(item.desc)}</p>
           </div>
+        </a>`;
+}
+
+async function syncLinks(html) {
+  if (!NOTION_LINKS_DB_ID) {
+    console.log('ℹ️ NOTION_LINKS_DB_ID가 없어 패들렛/바이브코딩 섹션은 건너뜁니다.');
+    return html;
+  }
+
+  const res = await notion.databases.query({ database_id: NOTION_LINKS_DB_ID });
+
+  const items = res.results.map((page) => {
+    const p = page.properties;
+    const title = p[LINK_PROP_TITLE]?.title?.map((t) => t.plain_text).join('') || '(제목 없음)';
+    const desc = p[LINK_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
+    const url = p[LINK_PROP_URL]?.url || '#';
+    const category = p[LINK_PROP_CATEGORY]?.select?.name || '';
+    return { title, desc, url, category };
+  });
+
+  const padletItems = items.filter((i) => i.category === '패들렛');
+  const vibeItems = items.filter((i) => i.category === '바이브코딩');
+
+  html = replaceBetween(
+    html,
+    '<!-- NOTION:PADLET:START -->',
+    '<!-- NOTION:PADLET:END -->',
+    padletItems.map(buildLinkCard).join('\n')
+  );
+
+  html = replaceBetween(
+    html,
+    '<!-- NOTION:VIBECODING:START -->',
+    '<!-- NOTION:VIBECODING:END -->',
+    vibeItems.map(buildLinkCard).join('\n')
+  );
+
+  console.log(`✅ 패들렛 ${padletItems.length}개, 바이브코딩 ${vibeItems.length}개 카드 반영`);
+  return html;
+}
+
+async function main() {
+  const res = await notion.databases.query({
+    database_id: NOTION_DB_ID,
+  });
+
+  const items = res.results.map((page) => {
+    const titleProp = page.properties[PROP_TITLE];
+    const doneProp = page.properties[PROP_DONE];
+
+    const text =
+      titleProp?.title?.map((t) => t.plain_text).join('') || '(제목 없음)';
+    const done = !!doneProp?.checkbox;
+
+    return { text, done };
+  });
+
+  const listHtml = items
+    .map(
+      (item) =>
+        `          <li><span class="chk${item.done ? ' done' : ''}"></span><span>${escapeHtml(
+          item.text
+        )}</span></li>`
+    )
+    .join('\n');
+
+  let html = fs.readFileSync(INDEX_PATH, 'utf-8');
+
+  html = replaceBetween(
+    html,
+    '<!-- NOTION:NOTES:START -->',
+    '<!-- NOTION:NOTES:END -->',
+    listHtml
+  );
+
+  html = replaceBetween(
+    html,
+    '<!-- NOTION:DATE:START -->',
+    '<!-- NOTION:DATE:END -->',
+    todayLabel()
+  );
+
+  html = await syncLinks(html);
+
+  fs.writeFileSync(INDEX_PATH, html, 'utf-8');
+  console.log(`✅ ${items.length}개 항목으로 index.html 갱신 완료`);
+}
+
+main().catch((err) => {
+  console.error('❌ 동기화 실패:', err.message);
+  process.exit(1);
+});
