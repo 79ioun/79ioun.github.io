@@ -1,0 +1,39 @@
+name: Sync Notion → index.html
+
+on:
+  schedule:
+    - cron: "0 23 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 의존성 설치
+        run: npm install
+
+      - name: 노션 → index.html 동기화
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          NOTION_LINKS_DB_ID: ${{ secrets.NOTION_LINKS_DB_ID }}
+        run: npm run sync-notion
+
+      - name: 변경사항 커밋 & 푸시
+        run: |
+          git config user.name "notion-sync-bot"
+          git config user.email "actions@github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "chore: sync notion content [automated]"
+          git push
