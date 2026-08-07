@@ -1,0 +1,12 @@
+{
+  "name": "sw-ai-instructor-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SW/AI 강사 홈페이지 - 노션 연동 자동화",
+  "scripts": {
+    "sync-notion": "node scripts/sync-notion.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
+  }
+}
