@@ -187,7 +187,9 @@
     height: 120px; background: linear-gradient(135deg, var(--accent-soft), var(--bg-raised));
     display:flex; align-items:center; justify-content:center;
     font-family: var(--mono); font-size:12px; color: var(--accent);
+    overflow:hidden;
   }
+  .link-thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
   .link-body{ padding: 18px 20px; }
   .link-body h3{ font-family: var(--display); font-size:16px; margin-bottom:4px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
   .link-arrow{ font-family: var(--mono); color: var(--ink-soft); font-size:14px; }
@@ -246,7 +248,7 @@
 
 <header>
   <nav class="wrap">
-    <div class="logo"><span class="dot"></span> KimYoungEun</div>
+    <div class="logo"><span class="dot"></span> kimyoungeun.dev</div>
     <div class="navlinks">
       <a href="#about">About</a>
       <a href="#curriculum">커리큘럼</a>
@@ -266,12 +268,9 @@
         <div class="eyebrow">SW / AI INSTRUCTOR</div>
         <h1>코드를 가르치고,<br>사람을 <span class="accent">성장</span>시킵니다.</h1>
         <p class="hero-desc">
-          6년차 SW·AI 교육 강사 김영은입니다. 인공지능, 피지컬 컴퓨팅, 머신러닝, 실전 프로젝트 중심 커리큘럼으로
-          많은 학생들과 함께했습니다.
+          6년차 SW·AI 교육 강사 김영은입니다. 인공지능, 피지컬 컴퓨팅, 머신러닝, 실전 프로젝트
+          중심 커리큘럼으로 많은 학생들과 함께했습니다.
         </p>
-        <!-- <div class="cta-row">
-          <a class="btn primary" href="#projects">프로젝트 보기</a>
-           </div> -->
       </div>
       <div class="code-panel">
         <div class="code-topbar">
@@ -299,10 +298,6 @@
             교육 현장으로 자리를 옮겼습니다. 이론보다 실습, 암기보다 이해를 강조하며
             현업에서 바로 쓸 수 있는 실전형 커리큘럼을 설계합니다.
           </p>
-          <p>
-            현재는 국비지원 부트캠프와 기업 사내교육에서 파이썬 기초부터
-            딥러닝·LLM 활용까지 폭넓은 과정을 담당하고 있습니다.
-          </p>
         </div>
         <div class="stats">
           <div class="stat"><b>6년</b><span>TEACHING</span></div>
@@ -326,7 +321,8 @@
         <thead>
           <tr><th style="width:90px;">주차</th><th style="width:180px;">주제</th><th>내용</th></tr>
         </thead>
-        <tbody>
+        <tbody id="notion-curriculum-list">
+          <!-- NOTION:CURRICULUM:START -->
           <tr>
             <td class="curr-week">Week 1</td>
             <td class="curr-topic">오리엔테이션 · SW 기초</td>
@@ -352,6 +348,7 @@
             <td class="curr-topic">발표 & 리뷰</td>
             <td class="curr-desc">결과물 발표, 동료 리뷰 및 피드백</td>
           </tr>
+          <!-- NOTION:CURRICULUM:END -->
         </tbody>
       </table>
       <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:14px;">* 세부 일정은 진행 상황에 따라 조정될 수 있습니다.</p>
@@ -437,15 +434,7 @@
         </a>
         <!-- NOTION:VIBECODING:END -->
       </div>
-
-      <!-- <div class="review-cta" style="margin-top:22px;">
-        <div>
-          <h3 style="font-family:var(--display); font-size:17px;">리뷰 요청서</h3>
-          <p>프로젝트 결과물에 대한 피드백을 요청해보세요.</p>
-        </div>
-        <a class="btn primary" href="#" target="_blank" rel="noopener">요청서 작성하기</a>
-      </div> 
-    </div> -->
+    </div>
   </section>
 
   <!-- CONTACT -->
@@ -454,20 +443,17 @@
       <div class="contact-box">
         <div>
           <h2>함께 강의를 만들어봐요</h2>
-        <!--  <p>기업 교육, 부트캠프 협업, 강연 문의는 아래로 연락 주세요.</p>  -->
+    
         </div>
         <div class="contact-links">
           <a href="mailto:79eeyore@hanmail.net">Email</a>
-          <!-- <a href="https://github.com/" target="_blank" rel="noopener">G
-itHub</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
-      </div> -->
+      </div>
     </div>
   </section>
 </main>
 
-<footer>© 2026 Kim YoungEun. Built with GitHub Pages.</footer>
+<footer>© 2026 Kim Youngeun. Built with GitHub Pages.</footer>
 
 <script>
   // 히어로 코드 패널 타이핑 효과
