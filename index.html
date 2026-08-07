@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>김영은 · SW/AI 강사</title>
+<meta name="description" content="SW·AI 교육 전문 강사 포트폴리오" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FAFAF9;
+    --bg-raised: #F1F1EE;
+    --ink: #14151A;
+    --ink-soft: #63656F;
+    --line: #E4E4E0;
+    --accent: #3D3AF1;
+    --accent-soft: #E8E7FD;
+    --mono: 'IBM Plex Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'IBM Plex Sans KR', sans-serif;
+    --maxw: 1040px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; text-decoration: none; }
+  :focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* NAV */
+  header{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(250,250,249,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height: 68px;
+  }
+  .logo{
+    font-family: var(--mono); font-size: 15px; font-weight:500;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ width:7px; height:7px; border-radius:50%; background: var(--accent); }
+  .navlinks{ display:flex; gap:28px; font-size:14px; color: var(--ink-soft); }
+  .navlinks a:hover{ color: var(--ink); }
+
+  /* HERO */
+  .hero{ padding: 96px 0 80px; }
+  .eyebrow{
+    font-family: var(--mono); font-size: 13px; color: var(--accent);
+    letter-spacing: .04em; margin-bottom: 20px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background: var(--accent); display:inline-block; }
+
+  .hero-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items:start; }
+  h1{
+    font-family: var(--display); font-weight:700;
+    font-size: clamp(34px, 5vw, 54px); line-height:1.12; letter-spacing:-0.01em;
+    margin-bottom: 22px;
+  }
+  h1 .accent{ color: var(--accent); }
+  .hero-desc{ font-size:16px; color: var(--ink-soft); max-width: 480px; margin-bottom: 32px; }
+  .cta-row{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn{
+    font-family: var(--mono); font-size: 13px; padding: 12px 20px;
+    border-radius: 4px; border:1px solid var(--ink); transition: all .15s ease;
+  }
+  .btn.primary{ background: var(--ink); color: var(--bg); }
+  .btn.primary:hover{ background: var(--accent); border-color: var(--accent); }
+  .btn.ghost:hover{ background: var(--ink); color: var(--bg); }
+
+  /* code panel signature */
+  .code-panel{
+    background: #14151A; border-radius: 10px; overflow:hidden;
+    box-shadow: 0 20px 50px -20px rgba(20,21,26,0.35);
+  }
+  .code-topbar{
+    display:flex; align-items:center; gap:6px; padding: 12px 14px;
+    border-bottom: 1px solid #2A2B33;
+  }
+  .code-topbar span{ width:10px; height:10px; border-radius:50%; background:#3A3B44; }
+  .code-topbar .filename{
+    margin-left:10px; font-family: var(--mono); font-size:12px; color:#8B8D98;
+  }
+  .code-body{
+    font-family: var(--mono); font-size: 13.5px; line-height:1.9;
+    padding: 22px 20px; color:#C7C9D3; min-height: 230px;
+  }
+  .code-body .kw{ color:#7A78F5; }
+  .code-body .str{ color:#8FD6A8; }
+  .code-body .key{ color:#E8AE64; }
+  .cursor{ display:inline-block; width:7px; height:15px; background:var(--accent); vertical-align:-2px; animation: blink 1s step-start infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* SECTION generic */
+  section{ padding: 78px 0; border-top: 1px solid var(--line); }
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; gap:20px; flex-wrap:wrap;}
+  .section-num{ font-family: var(--mono); font-size:12px; color: var(--ink-soft); }
+  h2{ font-family: var(--display); font-size: 28px; font-weight:600; margin-top:6px; }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .about-text p{ color: var(--ink-soft); margin-bottom:16px; font-size:15.5px; }
+  .stats{ display:grid; grid-template-columns: repeat(3,1fr); gap:0; border-top:1px solid var(--line); }
+  .stat{ padding: 20px 0; border-bottom:1px solid var(--line); }
+  .stat:nth-child(1),.stat:nth-child(2){ border-right:1px solid var(--line); padding-right:16px; }
+  .stat b{ font-family: var(--display); font-size: 30px; display:block; }
+  .stat span{ font-size:12.5px; color: var(--ink-soft); font-family: var(--mono); }
+
+  /* SKILLS */
+  .skill-cols{ display:grid; grid-template-columns: repeat(4,1fr); gap: 28px; }
+  .skill-col h3{ font-family: var(--mono); font-size:12.5px; color: var(--accent); margin-bottom:14px; }
+  .skill-col ul{ list-style:none; }
+  .skill-col li{ font-size:14.5px; padding:7px 0; border-bottom:1px dashed var(--line); color: var(--ink); }
+
+  /* PROJECTS */
+  .proj-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .proj-card{
+    border:1px solid var(--line); border-radius:8px; padding:26px;
+    transition: transform .15s ease, border-color .15s ease; background: var(--bg);
+  }
+  .proj-card:hover{ transform: translateY(-3px); border-color: var(--accent); }
+  .proj-thumb{
+    height: 110px; border-radius:6px; margin-bottom:18px;
+    background: linear-gradient(135deg, var(--accent-soft), var(--bg-raised));
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--mono); font-size:12px; color: var(--accent);
+  }
+  .proj-card h3{ font-family: var(--display); font-size:18px; margin-bottom:8px; }
+  .proj-card p{ font-size:14px; color: var(--ink-soft); margin-bottom:16px; }
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{ font-family: var(--mono); font-size:11px; padding:4px 9px; background: var(--bg-raised); border-radius:20px; color: var(--ink-soft); }
+
+  /* CURRICULUM */
+  .curr-table{ width:100%; border-collapse: collapse; }
+  .curr-table th{
+    text-align:left; font-family: var(--mono); font-size:11.5px; color: var(--ink-soft);
+    font-weight:500; padding: 10px 14px; border-bottom: 1px solid var(--ink);
+    text-transform: uppercase; letter-spacing:.04em;
+  }
+  .curr-table td{
+    padding: 16px 14px; border-bottom: 1px solid var(--line); font-size:14.5px; vertical-align: top;
+  }
+  .curr-table tr:hover td{ background: var(--bg-raised); }
+  .curr-week{ font-family: var(--mono); color: var(--accent); font-size:13px; white-space:nowrap; }
+  .curr-topic{ font-weight:500; }
+  .curr-desc{ color: var(--ink-soft); font-size:13.5px; }
+
+  /* CLASS NOTES */
+  .notes-card{
+    border:1px solid var(--line); border-radius:10px; padding: 26px 28px; background: var(--bg-raised);
+  }
+  .notes-date{ font-family: var(--mono); font-size:12px; color: var(--accent); margin-bottom:14px; }
+  .notes-list{ list-style:none; display:flex; flex-direction:column; gap:11px; }
+  .notes-list li{ display:flex; align-items:flex-start; gap:10px; font-size:14.5px; }
+  .chk{
+    width:16px; height:16px; border:1.5px solid var(--ink-soft); border-radius:4px;
+    flex:none; margin-top:2px;
+  }
+  .chk.done{ background: var(--accent); border-color: var(--accent); position:relative; }
+  .chk.done::after{
+    content:''; position:absolute; left:4px; top:1px; width:4px; height:8px;
+    border:solid white; border-width:0 2px 2px 0; transform: rotate(45deg);
+  }
+  .notes-list li.done span{ color: var(--ink-soft); text-decoration: line-through; }
+
+  /* LINK CARDS (패들렛 / 바이브코딩 공용) */
+  .link-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .link-card{
+    display:block; border:1px solid var(--line); border-radius:8px; overflow:hidden;
+    transition: transform .15s ease, border-color .15s ease; background: var(--bg);
+  }
+  .link-card:hover{ transform: translateY(-3px); border-color: var(--accent); }
+  .link-thumb{
+    height: 120px; background: linear-gradient(135deg, var(--accent-soft), var(--bg-raised));
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--mono); font-size:12px; color: var(--accent);
+  }
+  .link-body{ padding: 18px 20px; }
+  .link-body h3{ font-family: var(--display); font-size:16px; margin-bottom:4px; display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .link-arrow{ font-family: var(--mono); color: var(--ink-soft); font-size:14px; }
+  .link-body p{ font-size:13px; color: var(--ink-soft); }
+
+  /* REVIEW REQUEST CTA */
+  .review-cta{
+    border:1px dashed var(--ink); border-radius:10px; padding: 30px 32px;
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .review-cta p{ color: var(--ink-soft); font-size:14px; margin-top:6px; }
+
+  /* BLOG */
+  .post{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 18px 0; border-bottom: 1px solid var(--line); gap: 20px;
+  }
+  .post:hover .post-title{ color: var(--accent); }
+  .post-title{ font-size:16px; font-weight:500; transition: color .15s ease; }
+  .post-meta{ font-family: var(--mono); font-size:12px; color: var(--ink-soft); white-space:nowrap; }
+
+  /* CONTACT */
+  .contact-box{
+    background: var(--ink); color: var(--bg); border-radius: 12px; padding: 56px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px;
+  }
+  .contact-box h2{ color: var(--bg); font-size:26px; }
+  .contact-box p{ color: #B4B5BE; font-size:14px; margin-top:8px; }
+  .contact-links{ display:flex; gap:14px; flex-wrap:wrap; }
+  .contact-links a{
+    font-family: var(--mono); font-size:13px; border:1px solid #3A3B44; padding:11px 18px; border-radius:4px;
+  }
+  .contact-links a:hover{ background: var(--accent); border-color: var(--accent); }
+
+  footer{ text-align:center; padding: 32px 0; font-family: var(--mono); font-size:12px; color: var(--ink-soft); }
+
+  @media (max-width: 800px){
+    .hero-grid, .about-grid{ grid-template-columns: 1fr; }
+    .skill-cols{ grid-template-columns: repeat(2,1fr); }
+    .proj-grid{ grid-template-columns: 1fr; }
+    .link-grid{ grid-template-columns: 1fr; }
+    .curr-table{ font-size:13px; }
+    .review-cta{ flex-direction:column; align-items:flex-start; }
+    .stats{ grid-template-columns: 1fr 1fr 1fr; }
+    .contact-box{ flex-direction:column; align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .cursor{ animation:none; }
+    .proj-card{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="dot"></span> KimYoungEun</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#curriculum">커리큘럼</a>
+      <a href="#notes">수업메모</a>
+      <a href="#padlet">패들렛</a>
+      <a href="#vibecoding">바이브코딩</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">SW / AI INSTRUCTOR</div>
+        <h1>코드를 가르치고,<br>사람을 <span class="accent">성장</span>시킵니다.</h1>
+        <p class="hero-desc">
+          6년차 SW·AI 교육 강사 김영은입니다. 인공지능, 피지컬 컴퓨팅, 머신러닝, 실전 프로젝트 중심 커리큘럼으로
+          많은 학생들과 함께했습니다.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#projects">프로젝트 보기</a>
+           </div>
+      </div>
+      <div class="code-panel">
+        <div class="code-topbar">
+          <span></span><span></span><span></span>
+          <span class="filename">instructor.js</span>
+        </div>
+        <div class="code-body" id="typedCode"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-num">01 · About</div>
+          <h2>소개</h2>
+        </div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            대기업 SI 개발자로 6년간 근무 후, "혼자 잘하는 것보다 함께 성장시키는 일"에 매력을 느껴
+            교육 현장으로 자리를 옮겼습니다. 이론보다 실습, 암기보다 이해를 강조하며
+            현업에서 바로 쓸 수 있는 실전형 커리큘럼을 설계합니다.
+          </p>
+          <p>
+            현재는 국비지원 부트캠프와 기업 사내교육에서 파이썬 기초부터
+            딥러닝·LLM 활용까지 폭넓은 과정을 담당하고 있습니다.
+          </p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>6년</b><span>TEACHING</span></div>
+          <div class="stat"><b>1,000+</b><span>STUDENTS</span></div>
+          <div class="stat"><b>30</b><span>COHORTS</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section id="curriculum">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-num">02 · Curriculum</div>
+          <h2>강의 커리큘럼</h2>
+        </div>
+      </div>
+      <table class="curr-table">
+        <thead>
+          <tr><th style="width:90px;">주차</th><th style="width:180px;">주제</th><th>내용</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="curr-week">Week 1</td>
+            <td class="curr-topic">오리엔테이션 · SW 기초</td>
+            <td class="curr-desc">수업 소개, 개발 환경 세팅, 컴퓨팅 사고력 맛보기</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 2–3</td>
+            <td class="curr-topic">파이썬 기초</td>
+            <td class="curr-desc">변수·조건문·반복문, 실습 위주 문제풀이</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 4–5</td>
+            <td class="curr-topic">AI 영상 만들기</td>
+            <td class="curr-desc">생성형 AI 툴로 영상 제작, 패들렛에 결과물 공유</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 6–8</td>
+            <td class="curr-topic">AI 바이브코딩 프로젝트</td>
+            <td class="curr-desc">팀 프로젝트로 인터랙티브 웹 콘텐츠 제작</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 9</td>
+            <td class="curr-topic">발표 & 리뷰</td>
+            <td class="curr-desc">결과물 발표, 동료 리뷰 및 피드백</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:14px;">* 세부 일정은 진행 상황에 따라 조정될 수 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- CLASS NOTES -->
+  <section id="notes">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-num">03 · Notes</div>
+          <h2>오늘의 수업 메모</h2>
+        </div>
+      </div>
+      <div class="notes-card">
+        <div class="notes-date"><!-- NOTION:DATE:START -->2026.08.07 · TODAY<!-- NOTION:DATE:END --></div>
+        <ul class="notes-list" id="notion-notes-list">
+          <!-- NOTION:NOTES:START -->
+          <li><span class="chk done"></span><span>지난 시간 과제 리뷰</span></li>
+          <li><span class="chk"></span><span>AI 바이브코딩 프로젝트 중간 점검</span></li>
+          <li><span class="chk"></span><span>패들렛에 오늘 실습 결과 업로드 안내</span></li>
+          <!-- NOTION:NOTES:END -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PADLET -->
+  <section id="padlet">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-num">04 · Padlet</div>
+          <h2>패들렛 바로가기</h2>
+        </div>
+      </div>
+      <div class="link-grid" id="notion-padlet-list">
+        <!-- NOTION:PADLET:START -->
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · AI 영상</div>
+          <div class="link-body">
+            <h3>AI 영상 만들기 <span class="link-arrow">↗</span></h3>
+            <p>수강생들이 만든 AI 생성 영상 결과물 모음</p>
+          </div>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · 인공지능</div>
+          <div class="link-body">
+            <h3>인공지능 <span class="link-arrow">↗</span></h3>
+            <p>인공지능 개념 정리 및 실습 자료 공유 보드</p>
+          </div>
+        </a>
+        <!-- NOTION:PADLET:END -->
+      </div>
+    </div>
+  </section>
+
+  <!-- AI 바이브코딩 -->
+  <section id="vibecoding">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="section-num">05 · Projects</div>
+          <h2>AI 바이브코딩</h2>
+        </div>
+      </div>
+      <div class="link-grid" id="notion-vibecoding-list">
+        <!-- NOTION:VIBECODING:START -->
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 미스터리 파일즈</div>
+          <div class="link-body">
+            <h3>미스터리 파일즈 <span class="link-arrow">↗</span></h3>
+            <p>그림과 속에 전설 — 팀 프로젝트 인터랙티브 스토리</p>
+          </div>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 지역 방탈출</div>
+          <div class="link-body">
+            <h3>지역 방탈출 <span class="link-arrow">↗</span></h3>
+            <p>우리 지역 소재를 활용한 웹 방탈출 게임 제작</p>
+          </div>
+        </a>
+        <!-- NOTION:VIBECODING:END -->
+      </div>
+
+      <!-- <div class="review-cta" style="margin-top:22px;">
+        <div>
+          <h3 style="font-family:var(--display); font-size:17px;">리뷰 요청서</h3>
+          <p>프로젝트 결과물에 대한 피드백을 요청해보세요.</p>
+        </div>
+        <a class="btn primary" href="#" target="_blank" rel="noopener">요청서 작성하기</a>
+      </div> 
+    </div> -->
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <div>
+          <h2>함께 강의를 만들어봐요</h2>
+        <!--  <p>기업 교육, 부트캠프 협업, 강연 문의는 아래로 연락 주세요.</p>  -->
+        </div>
+        <div class="contact-links">
+          <a href="mailto:hello@KimYoungEun">Email</a>
+          <a href="https://github.com/" target="_blank" rel="noopener">G
+itHub</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>© 2026 Kim YoungEun. Built with GitHub Pages.</footer>
+
+<script>
+  // 히어로 코드 패널 타이핑 효과
+  const codeLines = [
+    { text: 'const ', cls: 'kw' },
+    { text: 'instructor ', cls: '' },
+    { text: '= {\n', cls: '' },
+    { text: '  name: ', cls: 'key' },
+    { text: "'김영은',\n", cls: 'str' },
+    { text: '  role: ', cls: 'key' },
+    { text: "'SW/AI Instructor',\n", cls: 'str' },
+    { text: '  AI: ', cls: 'key' },
+    { text: "['AI', 'vibe', 'LLM'],\n", cls: 'str' },
+    { text: '  mission: ', cls: 'key' },
+    { text: "'가르치며 함께 성장'\n", cls: 'str' },
+    { text: '};' , cls: ''}
+  ];
+
+  const el = document.getElementById('typedCode');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderStatic(){
+    let html = '';
+    codeLines.forEach(l => {
+      const safe = l.text.replace(/</g,'&lt;');
+      html += l.cls ? `<span class="${l.cls}">${safe}</span>` : safe;
+    });
+    el.innerHTML = html.replace(/\n/g,'<br>') + '<span class="cursor"></span>';
+  }
+
+  if(reduceMotion){
+    renderStatic();
+  } else {
+    let full = '';
+    codeLines.forEach(l => full += `%%${l.cls}%%${l.text}`);
+    let i = 0;
+    let out = '';
+    let currentCls = '';
+    function step(){
+      if(i >= full.length){
+        el.innerHTML = out + '<span class="cursor"></span>';
+        return;
+      }
+      if(full[i] === '%' && full[i+1] === '%'){
+        const end = full.indexOf('%%', i+2);
+        currentCls = full.slice(i+2, end);
+        i = end + 2;
+        step();
+        return;
+      }
+      const ch = full[i].replace(/</g,'&lt;');
+      out += (ch === '\n') ? '<br>' : (currentCls ? `<span class="${currentCls}">${ch}</span>` : ch);
+      el.innerHTML = out + '<span class="cursor"></span>';
+      i++;
+      setTimeout(step, 18);
+    }
+    step();
+  }
+</script>
+
+</body>
+</html>
