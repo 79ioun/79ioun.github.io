@@ -79,15 +79,28 @@ function colorToStyle(notionColor) {
   if (notionColor.endsWith('_background')) {
     const base = notionColor.replace('_background', '');
     const hex = NOTION_COLOR_MAP[base];
-    return hex ? ` style="background:${hex}33; border-radius:4px; padding:2px 6px;"` : '';
+    return hex ? `background:${hex}33; border-radius:4px; padding:2px 6px;` : '';
   }
   const hex = NOTION_COLOR_MAP[notionColor];
-  return hex ? ` style="color:${hex};"` : '';
+  return hex ? `color:${hex};` : '';
+}
+
+function buildInlineStyle({ color, bold }) {
+  const parts = [];
+  const colorCss = colorToStyle(color);
+  if (colorCss) parts.push(colorCss);
+  if (bold) parts.push('font-weight:700;');
+  return parts.length ? ` style="${parts.join(' ')}"` : '';
 }
 
 function getTitleColor(properties) {
   const prop = findByType(properties, 'title');
   return prop?.title?.[0]?.annotations?.color || 'default';
+}
+
+function getTitleBold(properties) {
+  const prop = findByType(properties, 'title');
+  return !!prop?.title?.[0]?.annotations?.bold;
 }
 
 function getCheckbox(properties) {
@@ -284,16 +297,19 @@ async function syncCurriculum(html) {
 
   const rows = res.results.map((page) => {
     const week = getTitleText(page.properties);
-    const weekColorStyle = colorToStyle(getTitleColor(page.properties));
+    const weekStyle = buildInlineStyle({
+      color: getTitleColor(page.properties),
+      bold: getTitleBold(page.properties),
+    });
     const [topic = '', desc = ''] = getRichTextList(page.properties);
-    return { week, weekColorStyle, topic, desc };
+    return { week, weekStyle, topic, desc };
   });
 
   const rowsHtml = rows
     .map(
       (r) =>
         `          <tr>
-            <td class="curr-week"><span${r.weekColorStyle}>${escapeHtml(r.week)}</span></td>
+            <td class="curr-week"><span${r.weekStyle}>${escapeHtml(r.week)}</span></td>
             <td class="curr-topic">${escapeHtml(r.topic)}</td>
             <td class="curr-desc">${escapeHtml(r.desc)}</td>
           </tr>`
