@@ -36,6 +36,6 @@ jobs:
         run: |
           git config user.name "notion-sync-bot"
           git config user.email "actions@github.com"
-          git add index.html
+          git add -A -- index.html images
           git diff --cached --quiet || git commit -m "chore: sync notion content [automated]"
           git push
