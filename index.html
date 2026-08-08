@@ -177,14 +177,14 @@
   .notes-list li.done span{ color: var(--ink-soft); text-decoration: line-through; }
 
   /* LINK CARDS (패들렛 / 바이브코딩 공용) */
-  .link-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap: 22px; }
+  .link-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
   .link-card{
     display:block; border:1px solid var(--line); border-radius:8px; overflow:hidden;
     transition: transform .15s ease, border-color .15s ease; background: var(--bg);
   }
   .link-card:hover{ transform: translateY(-3px); border-color: var(--accent); }
   .link-thumb{
-    height: 220px; background: linear-gradient(135deg, var(--accent-soft), var(--bg-raised));
+    height: 160px; background: linear-gradient(135deg, var(--accent-soft), var(--bg-raised));
     display:flex; align-items:center; justify-content:center;
     font-family: var(--mono); font-size:12px; color: var(--accent);
     overflow:hidden;
@@ -324,14 +324,29 @@
         <tbody id="notion-curriculum-list">
           <!-- NOTION:CURRICULUM:START -->
           <tr>
-            <td class="curr-week">2교시</td>
-            <td class="curr-topic">핑퐁 스크래치</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 1</td>
+            <td class="curr-topic">오리엔테이션 · SW 기초</td>
+            <td class="curr-desc">수업 소개, 개발 환경 세팅, 컴퓨팅 사고력 맛보기</td>
           </tr>
           <tr>
-            <td class="curr-week">1교시</td>
-            <td class="curr-topic">핑퐁 알아보기</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 2–3</td>
+            <td class="curr-topic">파이썬 기초</td>
+            <td class="curr-desc">변수·조건문·반복문, 실습 위주 문제풀이</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 4–5</td>
+            <td class="curr-topic">AI 영상 만들기</td>
+            <td class="curr-desc">생성형 AI 툴로 영상 제작, 패들렛에 결과물 공유</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 6–8</td>
+            <td class="curr-topic">AI 바이브코딩 프로젝트</td>
+            <td class="curr-desc">팀 프로젝트로 인터랙티브 웹 콘텐츠 제작</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 9</td>
+            <td class="curr-topic">발표 & 리뷰</td>
+            <td class="curr-desc">결과물 발표, 동료 리뷰 및 피드백</td>
           </tr>
           <!-- NOTION:CURRICULUM:END -->
         </tbody>
@@ -350,12 +365,12 @@
         </div>
       </div>
       <div class="notes-card">
-        <div class="notes-date"><!-- NOTION:DATE:START -->
-2026.08.08 · TODAY
-          <!-- NOTION:DATE:END --></div>
+        <div class="notes-date"><!-- NOTION:DATE:START -->2026.08.07 · TODAY<!-- NOTION:DATE:END --></div>
         <ul class="notes-list" id="notion-notes-list">
           <!-- NOTION:NOTES:START -->
-          <li><span class="chk"></span><span>AI 바이브 코딩</span></li>
+          <li><span class="chk done"></span><span>지난 시간 과제 리뷰</span></li>
+          <li><span class="chk"></span><span>AI 바이브코딩 프로젝트 중간 점검</span></li>
+          <li><span class="chk"></span><span>패들렛에 오늘 실습 결과 업로드 안내</span></li>
           <!-- NOTION:NOTES:END -->
         </ul>
       </div>
@@ -373,21 +388,21 @@
       </div>
       <div class="link-grid" id="notion-padlet-list">
         <!-- NOTION:PADLET:START -->
-        <a class="link-card" href="https://padlet.com/79ioun/padlet-i89hu0illjpc3cai" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ca01fcb0-a646-41eb-bd4a-f40d944f9c64/a99e6c0d-f594-4089-908b-f0edecb57abe/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_5-8-2026_17340_padlet.com.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466RAKZYTGE%2F20260808%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260808T000532Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD5EVE0CNRflqFFelI2z39COIfDwqgntaLuWIqaGWi%2FoAIgLCS8E2hNZ8Yq4a%2BX2JlyRvy4fphjzsndSEgH6fYVjv0q%2FwMIXxAAGgw2Mzc0MjMxODM4MDUiDPIZmRsE4igi7%2FTAiircAzOG2P1KYMbfwh7vVhtOnAJdZ4NeOcY0SOsitDGCeb6emTRlytKPGRK%2BhUprNL4rvd4f1p2fxBQF4xZXbWfbZyOReEaGOlKQfG%2BhA%2BmfkaUrbIi6dZO8DumEJi59%2FgNV2ugEZRShT2oY7GvOTCdKKuzn3IMK94zZZ4%2FR4BaIgIQt86OPfG229yob5S6zomvqL35dvS4XUxfGMn%2F9HsAuF6yuSCfUjZylz%2BQpKimcEkTwNYJnIyaRJIea87DNoCYilWbJ%2F3vjlANOEtcdw4K7ZSeCfixc5iqYQ4hP%2BeXDNaVt5W%2F4U6P%2B8AUTA4W2v8k0lgcF3sOiitSvIgJDJ95rkVSPeaN33SUh1Dch1GYEFZn04XxoD7ajl0IwzVAUXAZ2v1gyC3CKImbCvVUBEkmrf44ZBqvKs3N1IEU1TrBBQmkXNLPzSB8q6E2QkAu%2FEHGP%2FKXkYBE%2FcVSJt0akAnwTb7%2FYtwvh8KRYWNO6Y3WB3fRL0q1MN%2FvQ88FWhvunOze4anJwEnvbMFkXz4Wniu%2BLVE6Vn2goiGiB9iDF4TFHPGaL5w7DEtEaZUI%2BaSyyqb8a0jOSXnKJjzCeRuVpi770f0mUJhpKDJW%2Fgss1c1KPf4U16%2B8E%2FbI2HU8EowyrMMiy2dMGOqUBUoML7CykxokFpZXCGdQQ2TP935f1XptFaBUhHEPUfoq95Hy0Es0VdG5WaIBzZjJ4mTAvNjmkIjVH0vBvx5b%2FW%2FDZ%2B2fqhvIG6ZhS4vLn14%2BoC%2F1Nl4xcgrX5xKtMMd%2FtfZkyDUqUfctQMgMvpmGgyMUPwnXPa8Mw0yF87pc9PILtdHg3I0nVUIlkz9mpcfMbi9jQXARIFQDfl2eAXDxZh%2ByDj83y&amp;X-Amz-Signature=e19a3a17ee424751f642d66a1cce482512abdf4442aecb838404b77102f18f95&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="인공지능" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · AI 영상</div>
+          <div class="link-body">
+            <h3>AI 영상 만들기 <span class="link-arrow">↗</span></h3>
+            <p>수강생들이 만든 AI 생성 영상 결과물 모음</p>
+          </div>
+        </a>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · 인공지능</div>
           <div class="link-body">
             <h3>인공지능 <span class="link-arrow">↗</span></h3>
             <p>인공지능 개념 정리 및 실습 자료 공유 보드</p>
           </div>
         </a>
-        <a class="link-card" href="https://padlet.com/79ioun/ai-jge61j95pyzk6hae" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ca01fcb0-a646-41eb-bd4a-f40d944f9c64/3faec919-3e6d-432d-ac15-27e2670774bd/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_5-8-2026_173350_padlet.com.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466RAKZYTGE%2F20260808%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260808T000532Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD5EVE0CNRflqFFelI2z39COIfDwqgntaLuWIqaGWi%2FoAIgLCS8E2hNZ8Yq4a%2BX2JlyRvy4fphjzsndSEgH6fYVjv0q%2FwMIXxAAGgw2Mzc0MjMxODM4MDUiDPIZmRsE4igi7%2FTAiircAzOG2P1KYMbfwh7vVhtOnAJdZ4NeOcY0SOsitDGCeb6emTRlytKPGRK%2BhUprNL4rvd4f1p2fxBQF4xZXbWfbZyOReEaGOlKQfG%2BhA%2BmfkaUrbIi6dZO8DumEJi59%2FgNV2ugEZRShT2oY7GvOTCdKKuzn3IMK94zZZ4%2FR4BaIgIQt86OPfG229yob5S6zomvqL35dvS4XUxfGMn%2F9HsAuF6yuSCfUjZylz%2BQpKimcEkTwNYJnIyaRJIea87DNoCYilWbJ%2F3vjlANOEtcdw4K7ZSeCfixc5iqYQ4hP%2BeXDNaVt5W%2F4U6P%2B8AUTA4W2v8k0lgcF3sOiitSvIgJDJ95rkVSPeaN33SUh1Dch1GYEFZn04XxoD7ajl0IwzVAUXAZ2v1gyC3CKImbCvVUBEkmrf44ZBqvKs3N1IEU1TrBBQmkXNLPzSB8q6E2QkAu%2FEHGP%2FKXkYBE%2FcVSJt0akAnwTb7%2FYtwvh8KRYWNO6Y3WB3fRL0q1MN%2FvQ88FWhvunOze4anJwEnvbMFkXz4Wniu%2BLVE6Vn2goiGiB9iDF4TFHPGaL5w7DEtEaZUI%2BaSyyqb8a0jOSXnKJjzCeRuVpi770f0mUJhpKDJW%2Fgss1c1KPf4U16%2B8E%2FbI2HU8EowyrMMiy2dMGOqUBUoML7CykxokFpZXCGdQQ2TP935f1XptFaBUhHEPUfoq95Hy0Es0VdG5WaIBzZjJ4mTAvNjmkIjVH0vBvx5b%2FW%2FDZ%2B2fqhvIG6ZhS4vLn14%2BoC%2F1Nl4xcgrX5xKtMMd%2FtfZkyDUqUfctQMgMvpmGgyMUPwnXPa8Mw0yF87pc9PILtdHg3I0nVUIlkz9mpcfMbi9jQXARIFQDfl2eAXDxZh%2ByDj83y&amp;X-Amz-Signature=57c45133c54ff44e7df8df3f431b187054ae42835d3f73577d337649c1b93e66&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="AI 영상 만들기" /></div>
-          <div class="link-body">
-            <h3>AI 영상 만들기 <span class="link-arrow">↗</span></h3>
-            <p>AI 영상 수업 자료</p>
-          </div>
-        </a>
-          <!-- NOTION:PADLET:END -->
+        <!-- NOTION:PADLET:END -->
       </div>
     </div>
   </section>
@@ -403,28 +418,21 @@
       </div>
       <div class="link-grid" id="notion-vibecoding-list">
         <!-- NOTION:VIBECODING:START -->
-        <a class="link-card" href="https://script.google.com/macros/s/AKfycbzKNY_3TwC7-cRJtJmqNkSOlh2Hpi-n_LwZQyuYQANjd-Z9RdNrjQcGPdwWaPIlMrYe/exec" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ca01fcb0-a646-41eb-bd4a-f40d944f9c64/7b432d06-dd40-458b-8698-0fc5965c0b14/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2026-08-05_162333.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466RAKZYTGE%2F20260808%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260808T000532Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD5EVE0CNRflqFFelI2z39COIfDwqgntaLuWIqaGWi%2FoAIgLCS8E2hNZ8Yq4a%2BX2JlyRvy4fphjzsndSEgH6fYVjv0q%2FwMIXxAAGgw2Mzc0MjMxODM4MDUiDPIZmRsE4igi7%2FTAiircAzOG2P1KYMbfwh7vVhtOnAJdZ4NeOcY0SOsitDGCeb6emTRlytKPGRK%2BhUprNL4rvd4f1p2fxBQF4xZXbWfbZyOReEaGOlKQfG%2BhA%2BmfkaUrbIi6dZO8DumEJi59%2FgNV2ugEZRShT2oY7GvOTCdKKuzn3IMK94zZZ4%2FR4BaIgIQt86OPfG229yob5S6zomvqL35dvS4XUxfGMn%2F9HsAuF6yuSCfUjZylz%2BQpKimcEkTwNYJnIyaRJIea87DNoCYilWbJ%2F3vjlANOEtcdw4K7ZSeCfixc5iqYQ4hP%2BeXDNaVt5W%2F4U6P%2B8AUTA4W2v8k0lgcF3sOiitSvIgJDJ95rkVSPeaN33SUh1Dch1GYEFZn04XxoD7ajl0IwzVAUXAZ2v1gyC3CKImbCvVUBEkmrf44ZBqvKs3N1IEU1TrBBQmkXNLPzSB8q6E2QkAu%2FEHGP%2FKXkYBE%2FcVSJt0akAnwTb7%2FYtwvh8KRYWNO6Y3WB3fRL0q1MN%2FvQ88FWhvunOze4anJwEnvbMFkXz4Wniu%2BLVE6Vn2goiGiB9iDF4TFHPGaL5w7DEtEaZUI%2BaSyyqb8a0jOSXnKJjzCeRuVpi770f0mUJhpKDJW%2Fgss1c1KPf4U16%2B8E%2FbI2HU8EowyrMMiy2dMGOqUBUoML7CykxokFpZXCGdQQ2TP935f1XptFaBUhHEPUfoq95Hy0Es0VdG5WaIBzZjJ4mTAvNjmkIjVH0vBvx5b%2FW%2FDZ%2B2fqhvIG6ZhS4vLn14%2BoC%2F1Nl4xcgrX5xKtMMd%2FtfZkyDUqUfctQMgMvpmGgyMUPwnXPa8Mw0yF87pc9PILtdHg3I0nVUIlkz9mpcfMbi9jQXARIFQDfl2eAXDxZh%2ByDj83y&amp;X-Amz-Signature=a32ffd7c958f7a65f017f9d61a79020d683df926ded913bed57c093bd172f5fc&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="디튜 요청서" /></div>
-          <div class="link-body">
-            <h3>디튜 요청서 <span class="link-arrow">↗</span></h3>
-            <p>수업 지원을 위한</p>
-          </div>
-        </a>
-        <a class="link-card" href="https://79ioun.github.io/region-escape/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ca01fcb0-a646-41eb-bd4a-f40d944f9c64/fc6dda4b-3acd-4256-8cbe-38915566860e/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_6-8-2026_19254_.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466RAKZYTGE%2F20260808%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260808T000532Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD5EVE0CNRflqFFelI2z39COIfDwqgntaLuWIqaGWi%2FoAIgLCS8E2hNZ8Yq4a%2BX2JlyRvy4fphjzsndSEgH6fYVjv0q%2FwMIXxAAGgw2Mzc0MjMxODM4MDUiDPIZmRsE4igi7%2FTAiircAzOG2P1KYMbfwh7vVhtOnAJdZ4NeOcY0SOsitDGCeb6emTRlytKPGRK%2BhUprNL4rvd4f1p2fxBQF4xZXbWfbZyOReEaGOlKQfG%2BhA%2BmfkaUrbIi6dZO8DumEJi59%2FgNV2ugEZRShT2oY7GvOTCdKKuzn3IMK94zZZ4%2FR4BaIgIQt86OPfG229yob5S6zomvqL35dvS4XUxfGMn%2F9HsAuF6yuSCfUjZylz%2BQpKimcEkTwNYJnIyaRJIea87DNoCYilWbJ%2F3vjlANOEtcdw4K7ZSeCfixc5iqYQ4hP%2BeXDNaVt5W%2F4U6P%2B8AUTA4W2v8k0lgcF3sOiitSvIgJDJ95rkVSPeaN33SUh1Dch1GYEFZn04XxoD7ajl0IwzVAUXAZ2v1gyC3CKImbCvVUBEkmrf44ZBqvKs3N1IEU1TrBBQmkXNLPzSB8q6E2QkAu%2FEHGP%2FKXkYBE%2FcVSJt0akAnwTb7%2FYtwvh8KRYWNO6Y3WB3fRL0q1MN%2FvQ88FWhvunOze4anJwEnvbMFkXz4Wniu%2BLVE6Vn2goiGiB9iDF4TFHPGaL5w7DEtEaZUI%2BaSyyqb8a0jOSXnKJjzCeRuVpi770f0mUJhpKDJW%2Fgss1c1KPf4U16%2B8E%2FbI2HU8EowyrMMiy2dMGOqUBUoML7CykxokFpZXCGdQQ2TP935f1XptFaBUhHEPUfoq95Hy0Es0VdG5WaIBzZjJ4mTAvNjmkIjVH0vBvx5b%2FW%2FDZ%2B2fqhvIG6ZhS4vLn14%2BoC%2F1Nl4xcgrX5xKtMMd%2FtfZkyDUqUfctQMgMvpmGgyMUPwnXPa8Mw0yF87pc9PILtdHg3I0nVUIlkz9mpcfMbi9jQXARIFQDfl2eAXDxZh%2ByDj83y&amp;X-Amz-Signature=728c0ea749fa4991293d18011c3d22be7066210bf5adf7817129ea22e61ac326&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="지역 방탈출" /></div>
-          <div class="link-body">
-            <h3>지역 방탈출 <span class="link-arrow">↗</span></h3>
-            <p>우리 지역 소재를 활용한 웹 방탈출</p>
-          </div>
-        </a>
-        <a class="link-card" href="https://79ioun.github.io/mystery-files/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/ca01fcb0-a646-41eb-bd4a-f40d944f9c64/9f87ee77-af65-4715-b470-013f50212ba1/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2026-08-05_161733.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&amp;X-Amz-Credential=ASIAZI2LB466RAKZYTGE%2F20260808%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20260808T000532Z&amp;X-Amz-Expires=3600&amp;X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQD5EVE0CNRflqFFelI2z39COIfDwqgntaLuWIqaGWi%2FoAIgLCS8E2hNZ8Yq4a%2BX2JlyRvy4fphjzsndSEgH6fYVjv0q%2FwMIXxAAGgw2Mzc0MjMxODM4MDUiDPIZmRsE4igi7%2FTAiircAzOG2P1KYMbfwh7vVhtOnAJdZ4NeOcY0SOsitDGCeb6emTRlytKPGRK%2BhUprNL4rvd4f1p2fxBQF4xZXbWfbZyOReEaGOlKQfG%2BhA%2BmfkaUrbIi6dZO8DumEJi59%2FgNV2ugEZRShT2oY7GvOTCdKKuzn3IMK94zZZ4%2FR4BaIgIQt86OPfG229yob5S6zomvqL35dvS4XUxfGMn%2F9HsAuF6yuSCfUjZylz%2BQpKimcEkTwNYJnIyaRJIea87DNoCYilWbJ%2F3vjlANOEtcdw4K7ZSeCfixc5iqYQ4hP%2BeXDNaVt5W%2F4U6P%2B8AUTA4W2v8k0lgcF3sOiitSvIgJDJ95rkVSPeaN33SUh1Dch1GYEFZn04XxoD7ajl0IwzVAUXAZ2v1gyC3CKImbCvVUBEkmrf44ZBqvKs3N1IEU1TrBBQmkXNLPzSB8q6E2QkAu%2FEHGP%2FKXkYBE%2FcVSJt0akAnwTb7%2FYtwvh8KRYWNO6Y3WB3fRL0q1MN%2FvQ88FWhvunOze4anJwEnvbMFkXz4Wniu%2BLVE6Vn2goiGiB9iDF4TFHPGaL5w7DEtEaZUI%2BaSyyqb8a0jOSXnKJjzCeRuVpi770f0mUJhpKDJW%2Fgss1c1KPf4U16%2B8E%2FbI2HU8EowyrMMiy2dMGOqUBUoML7CykxokFpZXCGdQQ2TP935f1XptFaBUhHEPUfoq95Hy0Es0VdG5WaIBzZjJ4mTAvNjmkIjVH0vBvx5b%2FW%2FDZ%2B2fqhvIG6ZhS4vLn14%2BoC%2F1Nl4xcgrX5xKtMMd%2FtfZkyDUqUfctQMgMvpmGgyMUPwnXPa8Mw0yF87pc9PILtdHg3I0nVUIlkz9mpcfMbi9jQXARIFQDfl2eAXDxZh%2ByDj83y&amp;X-Amz-Signature=473887fc652da732a2ae9e73372cf9e3366b152a2b544d678995cb5edab0740f&amp;X-Amz-SignedHeaders=host&amp;x-amz-checksum-mode=ENABLED&amp;x-id=GetObject" alt="미스터리 파일즈" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 미스터리 파일즈</div>
           <div class="link-body">
             <h3>미스터리 파일즈 <span class="link-arrow">↗</span></h3>
-            <p>미스터리 퀴즈</p>
+            <p>그림과 속에 전설 — 팀 프로젝트 인터랙티브 스토리</p>
           </div>
         </a>
-          <!-- NOTION:VIBECODING:END -->
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 지역 방탈출</div>
+          <div class="link-body">
+            <h3>지역 방탈출 <span class="link-arrow">↗</span></h3>
+            <p>우리 지역 소재를 활용한 웹 방탈출 게임 제작</p>
+          </div>
+        </a>
+        <!-- NOTION:VIBECODING:END -->
       </div>
     </div>
   </section>
