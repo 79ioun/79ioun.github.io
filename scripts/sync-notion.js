@@ -38,6 +38,7 @@ const CURR_PROP_WEEK = process.env.NOTION_CURR_PROP_WEEK || '주차';
 const CURR_PROP_TOPIC = process.env.NOTION_CURR_PROP_TOPIC || '주제';
 const CURR_PROP_DESC = process.env.NOTION_CURR_PROP_DESC || '내용';
 const INDEX_PATH = path.join(__dirname, '..', 'index.html');
+const IMAGES_DIR = path.join(__dirname, '..', 'images');
 
 if (!NOTION_TOKEN || !NOTION_DB_ID) {
   console.error('NOTION_TOKEN, NOTION_DB_ID 환경변수가 필요합니다.');
@@ -45,6 +46,36 @@ if (!NOTION_TOKEN || !NOTION_DB_ID) {
 }
 
 const notion = new Client({ auth: NOTION_TOKEN });
+
+const EXT_BY_TYPE = {
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+};
+
+// 노션의 임시 이미지 URL(1시간 정도면 만료됨)을 다운로드해서
+// 저장소 안 images/ 폴더에 영구적으로 저장하고, 로컬 경로를 돌려줍니다.
+async function downloadImage(url, pageId) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`상태 코드 ${res.status}`);
+    const contentType = res.headers.get('content-type') || 'image/jpeg';
+    const ext = EXT_BY_TYPE[contentType.split(';')[0]] || 'jpg';
+    const fileName = `link-${pageId.replace(/-/g, '')}.${ext}`;
+    const filePath = path.join(IMAGES_DIR, fileName);
+
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
+    const arrayBuffer = await res.arrayBuffer();
+    fs.writeFileSync(filePath, Buffer.from(arrayBuffer));
+
+    return `images/${fileName}`;
+  } catch (err) {
+    console.log(`⚠️ 이미지 다운로드 실패 (${pageId}): ${err.message}`);
+    return '';
+  }
+}
 
 function escapeHtml(str) {
   return String(str)
@@ -94,22 +125,32 @@ async function syncLinks(html) {
     return html;
   }
 
-  const res = await notion.databases.query({ database_id: NOTION_LINKS_DB_ID });
+  const res = await notion.databases.query({
+    database_id: NOTION_LINKS_DB_ID,
+    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
+  });
 
-  const items = res.results.map((page) => {
+  const items = [];
+  for (const page of res.results) {
     const p = page.properties;
     const title = p[LINK_PROP_TITLE]?.title?.map((t) => t.plain_text).join('') || '(제목 없음)';
     const desc = p[LINK_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
     const url = p[LINK_PROP_URL]?.url || '#';
     const category = p[LINK_PROP_CATEGORY]?.select?.name || '';
     const imageFile = p[LINK_PROP_IMAGE]?.files?.[0];
-    const image = imageFile
+    const rawImageUrl = imageFile
       ? imageFile.type === 'external'
         ? imageFile.external?.url
         : imageFile.file?.url
       : '';
-    return { title, desc, url, category, image };
-  });
+
+    let image = '';
+    if (rawImageUrl) {
+      image = await downloadImage(rawImageUrl, page.id);
+    }
+
+    items.push({ title, desc, url, category, image });
+  }
 
   const padletItems = items.filter((i) => i.category === '패들렛');
   const vibeItems = items.filter((i) => i.category === '바이브코딩');
@@ -138,7 +179,10 @@ async function syncCurriculum(html) {
     return html;
   }
 
-  const res = await notion.databases.query({ database_id: NOTION_CURR_DB_ID });
+  const res = await notion.databases.query({
+    database_id: NOTION_CURR_DB_ID,
+    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
+  });
 
   const rows = res.results.map((page) => {
     const p = page.properties;
@@ -173,8 +217,7 @@ async function syncCurriculum(html) {
 async function main() {
   const res = await notion.databases.query({
     database_id: NOTION_DB_ID,
-    // 필요하면 정렬/필터를 여기에 추가하세요.
-    // sorts: [{ property: '순서', direction: 'ascending' }],
+    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
   });
 
   const items = res.results.map((page) => {
