@@ -154,7 +154,7 @@
     padding: 16px 14px; border-bottom: 1px solid var(--line); font-size:14.5px; vertical-align: top;
   }
   .curr-table tr:hover td{ background: var(--bg-raised); }
-  .curr-week{ font-family: var(--mono); color: var(--accent); font-size:13px; white-space:nowrap; }
+  .curr-week{ font-family: var(--mono); color: var(--ink); font-size:13px; white-space:nowrap; }
   .curr-topic{ font-weight:500; }
   .curr-desc{ color: var(--ink-soft); font-size:13.5px; }
 
@@ -319,24 +319,34 @@
       </div>
       <table class="curr-table">
         <thead>
-          <tr><th style="width:90px;">주차</th><th style="width:180px;">주제</th><th>내용</th></tr>
+          <tr><th style="width:90px;">과목</th><th style="width:180px;">주제</th><th>내용</th></tr>
         </thead>
         <tbody id="notion-curriculum-list">
           <!-- NOTION:CURRICULUM:START -->
           <tr>
-            <td class="curr-week">생셩형 AI</td>
-            <td class="curr-topic">핑퐁 알아보기</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 1</td>
+            <td class="curr-topic">오리엔테이션 · SW 기초</td>
+            <td class="curr-desc">수업 소개, 개발 환경 세팅, 컴퓨팅 사고력 맛보기</td>
           </tr>
           <tr>
-            <td class="curr-week">핑퐁</td>
-            <td class="curr-topic">핑퐁 스크래치</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 2–3</td>
+            <td class="curr-topic">파이썬 기초</td>
+            <td class="curr-desc">변수·조건문·반복문, 실습 위주 문제풀이</td>
           </tr>
           <tr>
-            <td class="curr-week">할로코드</td>
-            <td class="curr-topic"></td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 4–5</td>
+            <td class="curr-topic">AI 영상 만들기</td>
+            <td class="curr-desc">생성형 AI 툴로 영상 제작, 패들렛에 결과물 공유</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 6–8</td>
+            <td class="curr-topic">AI 바이브코딩 프로젝트</td>
+            <td class="curr-desc">팀 프로젝트로 인터랙티브 웹 콘텐츠 제작</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 9</td>
+            <td class="curr-topic">발표 & 리뷰</td>
+            <td class="curr-desc">결과물 발표, 동료 리뷰 및 피드백</td>
           </tr>
           <!-- NOTION:CURRICULUM:END -->
         </tbody>
@@ -355,12 +365,12 @@
         </div>
       </div>
       <div class="notes-card">
-        <div class="notes-date"><!-- NOTION:DATE:START -->
-2026.08.08 · TODAY
-          <!-- NOTION:DATE:END --></div>
+        <div class="notes-date"><!-- NOTION:DATE:START -->2026.08.07 · TODAY<!-- NOTION:DATE:END --></div>
         <ul class="notes-list" id="notion-notes-list">
           <!-- NOTION:NOTES:START -->
-          <li><span class="chk"></span><span>안녕하세요</span></li>
+          <li><span class="chk done"></span><span>지난 시간 과제 리뷰</span></li>
+          <li><span class="chk"></span><span>AI 바이브코딩 프로젝트 중간 점검</span></li>
+          <li><span class="chk"></span><span>패들렛에 오늘 실습 결과 업로드 안내</span></li>
           <!-- NOTION:NOTES:END -->
         </ul>
       </div>
@@ -378,21 +388,21 @@
       </div>
       <div class="link-grid" id="notion-padlet-list">
         <!-- NOTION:PADLET:START -->
-        <a class="link-card" href="https://padlet.com/79ioun/ai-jge61j95pyzk6hae" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca8002a05bfd14ae189b14.jpg" alt="AI 영상 만들기" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · AI 영상</div>
           <div class="link-body">
             <h3>AI 영상 만들기 <span class="link-arrow">↗</span></h3>
-            <p>AI 영상 수업 자료</p>
+            <p>수강생들이 만든 AI 생성 영상 결과물 모음</p>
           </div>
         </a>
-        <a class="link-card" href="https://padlet.com/79ioun/padlet-i89hu0illjpc3cai" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca8089985ce1186fe09c4b.jpg" alt="인공지능" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · 인공지능</div>
           <div class="link-body">
             <h3>인공지능 <span class="link-arrow">↗</span></h3>
             <p>인공지능 개념 정리 및 실습 자료 공유 보드</p>
           </div>
         </a>
-          <!-- NOTION:PADLET:END -->
+        <!-- NOTION:PADLET:END -->
       </div>
     </div>
   </section>
@@ -408,28 +418,21 @@
       </div>
       <div class="link-grid" id="notion-vibecoding-list">
         <!-- NOTION:VIBECODING:START -->
-        <a class="link-card" href="https://79ioun.github.io/mystery-files/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca80a6b921f1a282507cda.png" alt="미스터리 파일즈" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 미스터리 파일즈</div>
           <div class="link-body">
             <h3>미스터리 파일즈 <span class="link-arrow">↗</span></h3>
-            <p>미스터리 퀴즈</p>
+            <p>그림과 속에 전설 — 팀 프로젝트 인터랙티브 스토리</p>
           </div>
         </a>
-        <a class="link-card" href="https://79ioun.github.io/region-escape/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca80e2b327c82dadf5d945.jpg" alt="지역 방탈출" /></div>
+        <a class="link-card" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 지역 방탈출</div>
           <div class="link-body">
             <h3>지역 방탈출 <span class="link-arrow">↗</span></h3>
-            <p>우리 지역 소재를 활용한 웹 방탈출</p>
+            <p>우리 지역 소재를 활용한 웹 방탈출 게임 제작</p>
           </div>
         </a>
-        <a class="link-card" href="https://script.google.com/macros/s/AKfycbzKNY_3TwC7-cRJtJmqNkSOlh2Hpi-n_LwZQyuYQANjd-Z9RdNrjQcGPdwWaPIlMrYe/exec" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca803a9c12f3182c6c69bf.png" alt="디튜 요청서" /></div>
-          <div class="link-body">
-            <h3>디튜 요청서 <span class="link-arrow">↗</span></h3>
-            <p>수업 지원을 위한</p>
-          </div>
-        </a>
-          <!-- NOTION:VIBECODING:END -->
+        <!-- NOTION:VIBECODING:END -->
       </div>
     </div>
   </section>
@@ -443,7 +446,7 @@
 
         </div>
         <div class="contact-links">
-          <a href="mailto:79eeyore@hanmail.net">Email</a>
+          <a href="mailto:hello@example.com">Email</a>
         </div>
       </div>
     </div>
