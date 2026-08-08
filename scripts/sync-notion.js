@@ -60,6 +60,36 @@ function getTitleText(properties) {
   return prop?.title?.map((t) => t.plain_text).join('') || '';
 }
 
+// 노션에서 제목 텍스트에 직접 지정한 색상을 그대로 가져옵니다.
+// (노션에서 글자를 선택 → 색상 적용 → 여기 자동 반영)
+const NOTION_COLOR_MAP = {
+  gray: '#9B9A97',
+  brown: '#64473A',
+  orange: '#D9730D',
+  yellow: '#DFAB01',
+  green: '#0F7B6C',
+  blue: '#0B6E99',
+  purple: '#6940A5',
+  pink: '#AD1A72',
+  red: '#E03E3E',
+};
+
+function colorToStyle(notionColor) {
+  if (!notionColor || notionColor === 'default') return '';
+  if (notionColor.endsWith('_background')) {
+    const base = notionColor.replace('_background', '');
+    const hex = NOTION_COLOR_MAP[base];
+    return hex ? ` style="background:${hex}33; border-radius:4px; padding:2px 6px;"` : '';
+  }
+  const hex = NOTION_COLOR_MAP[notionColor];
+  return hex ? ` style="color:${hex};"` : '';
+}
+
+function getTitleColor(properties) {
+  const prop = findByType(properties, 'title');
+  return prop?.title?.[0]?.annotations?.color || 'default';
+}
+
 function getCheckbox(properties) {
   const prop = findByType(properties, 'checkbox');
   return !!prop?.checkbox;
@@ -254,15 +284,16 @@ async function syncCurriculum(html) {
 
   const rows = res.results.map((page) => {
     const week = getTitleText(page.properties);
+    const weekColorStyle = colorToStyle(getTitleColor(page.properties));
     const [topic = '', desc = ''] = getRichTextList(page.properties);
-    return { week, topic, desc };
+    return { week, weekColorStyle, topic, desc };
   });
 
   const rowsHtml = rows
     .map(
       (r) =>
         `          <tr>
-            <td class="curr-week">${escapeHtml(r.week)}</td>
+            <td class="curr-week"><span${r.weekColorStyle}>${escapeHtml(r.week)}</span></td>
             <td class="curr-topic">${escapeHtml(r.topic)}</td>
             <td class="curr-desc">${escapeHtml(r.desc)}</td>
           </tr>`
