@@ -297,9 +297,10 @@ async function syncCurriculum(html) {
 
   const rows = res.results.map((page) => {
     const week = getTitleText(page.properties);
+    const bold = getTitleBold(page.properties) || getCheckbox(page.properties);
     const weekStyle = buildInlineStyle({
       color: getTitleColor(page.properties),
-      bold: getTitleBold(page.properties),
+      bold,
     });
     const [topic = '', desc = ''] = getRichTextList(page.properties);
     return { week, weekStyle, topic, desc };
