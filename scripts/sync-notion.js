@@ -2,14 +2,25 @@
 //
 // 노션 데이터베이스 3개를 읽어서 index.html을 자동으로 갱신합니다.
 //
-// 1) "수업 메모" DB → <!-- NOTION:NOTES:START/END --> 구간
-//    속성: 제목(title) / 완료(checkbox)
+// ✅ 열(속성) 이름은 자유롭게 지으셔도 됩니다!
+//    스크립트가 "이름"이 아니라 "속성 종류(타입)"로 알아서 인식해요.
+//    예: 제목 칸 이름을 '과목'이라고 하든 '주차'라고 하든 상관없이,
+//        Notion에서 "제목(title)" 타입으로 되어있기만 하면 자동으로 인식됩니다.
 //
-// 2) "링크모음" DB → 패들렛(<!-- NOTION:PADLET -->) / 바이브코딩(<!-- NOTION:VIBECODING -->) 구간
-//    속성: 제목(title) / 설명(rich_text) / URL(url) / 카테고리(select: "패들렛" 또는 "바이브코딩")
+// 1) "수업 메모" DB
+//    - 제목 타입 속성 1개 → 할 일 텍스트
+//    - 체크박스 타입 속성 1개 → 완료 여부
 //
-// 3) "커리큘럼" DB → <!-- NOTION:CURRICULUM:START/END --> 구간
-//    속성: 주차(title) / 주제(rich_text) / 내용(rich_text)
+// 2) "링크모음" DB
+//    - 제목 타입 속성 1개 → 카드 제목
+//    - URL 타입 속성 1개 → 카드가 연결될 링크
+//    - Select(선택) 타입 속성 1개, 값은 "패들렛" 또는 "바이브코딩" → 어느 섹션에 들어갈지
+//    - 파일과 미디어 타입 속성 1개 (선택) → 카드 썸네일 이미지
+//    - 텍스트(rich text) 타입 속성 1개 (선택) → 카드 설명
+//
+// 3) "커리큘럼" DB
+//    - 제목 타입 속성 1개 → 주차/회차
+//    - 텍스트(rich text) 타입 속성 2개 → 순서대로 "주제", "내용"
 //
 // 필요한 환경변수:
 //   NOTION_TOKEN        (2단계에서 발급받은 토큰)
@@ -27,16 +38,6 @@ const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const NOTION_DB_ID = process.env.NOTION_DB_ID;
 const NOTION_LINKS_DB_ID = process.env.NOTION_LINKS_DB_ID;
 const NOTION_CURR_DB_ID = process.env.NOTION_CURR_DB_ID;
-const PROP_TITLE = process.env.NOTION_PROP_TITLE || '이름';
-const PROP_DONE = process.env.NOTION_PROP_DONE || '완료';
-const LINK_PROP_TITLE = process.env.NOTION_LINK_PROP_TITLE || '이름';
-const LINK_PROP_DESC = process.env.NOTION_LINK_PROP_DESC || '설명';
-const LINK_PROP_URL = process.env.NOTION_LINK_PROP_URL || 'URL';
-const LINK_PROP_CATEGORY = process.env.NOTION_LINK_PROP_CATEGORY || '카테고리';
-const LINK_PROP_IMAGE = process.env.NOTION_LINK_PROP_IMAGE || '이미지';
-const CURR_PROP_WEEK = process.env.NOTION_CURR_PROP_WEEK || '주차';
-const CURR_PROP_TOPIC = process.env.NOTION_CURR_PROP_TOPIC || '주제';
-const CURR_PROP_DESC = process.env.NOTION_CURR_PROP_DESC || '내용';
 const INDEX_PATH = path.join(__dirname, '..', 'index.html');
 const IMAGES_DIR = path.join(__dirname, '..', 'images');
 
@@ -46,6 +47,73 @@ if (!NOTION_TOKEN || !NOTION_DB_ID) {
 }
 
 const notion = new Client({ auth: NOTION_TOKEN });
+
+// ── 속성 "종류"로 값을 찾아주는 헬퍼들 ──────────────────────
+// (열 이름이 뭐든 상관없이, 속성의 타입만 보고 값을 뽑아옵니다)
+
+function findByType(properties, type) {
+  return Object.values(properties).find((p) => p.type === type);
+}
+
+function getTitleText(properties) {
+  const prop = findByType(properties, 'title');
+  return prop?.title?.map((t) => t.plain_text).join('') || '';
+}
+
+function getCheckbox(properties) {
+  const prop = findByType(properties, 'checkbox');
+  return !!prop?.checkbox;
+}
+
+function getUrl(properties) {
+  const prop = findByType(properties, 'url');
+  return prop?.url || '';
+}
+
+function getSelectName(properties) {
+  const prop = findByType(properties, 'select');
+  return prop?.select?.name || '';
+}
+
+function getFirstFile(properties) {
+  const prop = findByType(properties, 'files');
+  return prop?.files?.[0];
+}
+
+// rich_text 타입 속성들을 노션에 표시된 순서대로 배열로 반환
+function getRichTextList(properties) {
+  return Object.values(properties)
+    .filter((p) => p.type === 'rich_text')
+    .map((p) => p.rich_text.map((t) => t.plain_text).join(''));
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function todayLabel() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}.${m}.${day} · TODAY`;
+}
+
+function replaceBetween(html, startMarker, endMarker, content) {
+  const start = html.indexOf(startMarker);
+  const end = html.indexOf(endMarker);
+  if (start === -1 || end === -1) {
+    throw new Error(`마커를 찾을 수 없습니다: ${startMarker}`);
+  }
+  return (
+    html.slice(0, start + startMarker.length) +
+    '\n' + content + '\n          ' +
+    html.slice(end)
+  );
+}
 
 const EXT_BY_TYPE = {
   'image/jpeg': 'jpg',
@@ -77,34 +145,6 @@ async function downloadImage(url, pageId) {
   }
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function todayLabel() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${day} · TODAY`;
-}
-
-function replaceBetween(html, startMarker, endMarker, content) {
-  const start = html.indexOf(startMarker);
-  const end = html.indexOf(endMarker);
-  if (start === -1 || end === -1) {
-    throw new Error(`마커를 찾을 수 없습니다: ${startMarker}`);
-  }
-  return (
-    html.slice(0, start + startMarker.length) +
-    '\n' + content + '\n          ' +
-    html.slice(end)
-  );
-}
-
 function buildLinkCard(item) {
   const label = item.category ? escapeHtml(item.category).toUpperCase() : 'LINK';
   const thumb = item.image
@@ -117,6 +157,33 @@ function buildLinkCard(item) {
             <p>${escapeHtml(item.desc)}</p>
           </div>
         </a>`;
+}
+
+async function syncNotes(html) {
+  const res = await notion.databases.query({
+    database_id: NOTION_DB_ID,
+    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
+  });
+
+  const items = res.results.map((page) => ({
+    text: getTitleText(page.properties) || '(제목 없음)',
+    done: getCheckbox(page.properties),
+  }));
+
+  const listHtml = items
+    .map(
+      (item) =>
+        `          <li><span class="chk${item.done ? ' done' : ''}"></span><span>${escapeHtml(
+          item.text
+        )}</span></li>`
+    )
+    .join('\n');
+
+  html = replaceBetween(html, '<!-- NOTION:NOTES:START -->', '<!-- NOTION:NOTES:END -->', listHtml);
+  html = replaceBetween(html, '<!-- NOTION:DATE:START -->', '<!-- NOTION:DATE:END -->', todayLabel());
+
+  console.log(`✅ 수업 메모 ${items.length}개 항목 반영`);
+  return html;
 }
 
 async function syncLinks(html) {
@@ -132,12 +199,13 @@ async function syncLinks(html) {
 
   const items = [];
   for (const page of res.results) {
-    const p = page.properties;
-    const title = p[LINK_PROP_TITLE]?.title?.map((t) => t.plain_text).join('') || '(제목 없음)';
-    const desc = p[LINK_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
-    const url = p[LINK_PROP_URL]?.url || '#';
-    const category = p[LINK_PROP_CATEGORY]?.select?.name || '';
-    const imageFile = p[LINK_PROP_IMAGE]?.files?.[0];
+    const props = page.properties;
+    const title = getTitleText(props) || '(제목 없음)';
+    const desc = getRichTextList(props)[0] || '';
+    const url = getUrl(props) || '#';
+    const category = getSelectName(props);
+
+    const imageFile = getFirstFile(props);
     const rawImageUrl = imageFile
       ? imageFile.type === 'external'
         ? imageFile.external?.url
@@ -185,10 +253,8 @@ async function syncCurriculum(html) {
   });
 
   const rows = res.results.map((page) => {
-    const p = page.properties;
-    const week = p[CURR_PROP_WEEK]?.title?.map((t) => t.plain_text).join('') || '';
-    const topic = p[CURR_PROP_TOPIC]?.rich_text?.map((t) => t.plain_text).join('') || '';
-    const desc = p[CURR_PROP_DESC]?.rich_text?.map((t) => t.plain_text).join('') || '';
+    const week = getTitleText(page.properties);
+    const [topic = '', desc = ''] = getRichTextList(page.properties);
     return { week, topic, desc };
   });
 
@@ -215,52 +281,14 @@ async function syncCurriculum(html) {
 }
 
 async function main() {
-  const res = await notion.databases.query({
-    database_id: NOTION_DB_ID,
-    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
-  });
-
-  const items = res.results.map((page) => {
-    const titleProp = page.properties[PROP_TITLE];
-    const doneProp = page.properties[PROP_DONE];
-
-    const text =
-      titleProp?.title?.map((t) => t.plain_text).join('') || '(제목 없음)';
-    const done = !!doneProp?.checkbox;
-
-    return { text, done };
-  });
-
-  const listHtml = items
-    .map(
-      (item) =>
-        `          <li><span class="chk${item.done ? ' done' : ''}"></span><span>${escapeHtml(
-          item.text
-        )}</span></li>`
-    )
-    .join('\n');
-
   let html = fs.readFileSync(INDEX_PATH, 'utf-8');
 
-  html = replaceBetween(
-    html,
-    '<!-- NOTION:NOTES:START -->',
-    '<!-- NOTION:NOTES:END -->',
-    listHtml
-  );
-
-  html = replaceBetween(
-    html,
-    '<!-- NOTION:DATE:START -->',
-    '<!-- NOTION:DATE:END -->',
-    todayLabel()
-  );
-
+  html = await syncNotes(html);
   html = await syncLinks(html);
   html = await syncCurriculum(html);
 
   fs.writeFileSync(INDEX_PATH, html, 'utf-8');
-  console.log(`✅ ${items.length}개 항목으로 index.html 갱신 완료`);
+  console.log('✅ index.html 전체 갱신 완료');
 }
 
 main().catch((err) => {
