@@ -193,7 +193,7 @@ function buildLinkCard(item) {
   const thumb = item.image
     ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" />`
     : label;
-  return `        <a class="link-card" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener">
+  return `        <a class="link-card reveal" href="${escapeHtml(item.url || '#')}" target="_blank" rel="noopener">
           <div class="link-thumb">${thumb}</div>
           <div class="link-body">
             <h3>${escapeHtml(item.title)} <span class="link-arrow">↗</span></h3>
