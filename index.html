@@ -237,10 +237,36 @@
     .contact-box{ flex-direction:column; align-items:flex-start; }
   }
 
+  /* ── 스크롤하면 살짝 나타나는 효과 ── */
+  .reveal{
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.is-visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* 같은 그룹 안에서 순서대로 살짝씩 늦게 나타나도록 */
+  .reveal-group .reveal:nth-child(2){ transition-delay: .08s; }
+  .reveal-group .reveal:nth-child(3){ transition-delay: .16s; }
+  .reveal-group .reveal:nth-child(4){ transition-delay: .24s; }
+
+  /* ── 카드에 마우스 올리면 더 크게 반응하는 효과 ── */
+  .proj-card, .link-card{
+    transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease, border-color .15s ease;
+  }
+  .proj-card:hover, .link-card:hover{
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 16px 32px -18px rgba(20,21,26,0.25);
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .cursor{ animation:none; }
     .proj-card{ transition:none; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .proj-card:hover, .link-card:hover{ transform:none; box-shadow:none; }
   }
 </style>
 </head>
@@ -285,13 +311,13 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <div class="section-num">01 · About</div>
           <h2>소개</h2>
         </div>
       </div>
-      <div class="about-grid">
+      <div class="about-grid reveal">
         <div class="about-text">
           <p>
             "혼자 잘하는 것보다 함께 성장시키는 일"에 매력을 느껴
@@ -311,56 +337,66 @@
   <!-- CURRICULUM -->
   <section id="curriculum">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <div class="section-num">02 · Curriculum</div>
           <h2>강의 커리큘럼</h2>
         </div>
       </div>
-      <table class="curr-table">
+      <table class="curr-table reveal">
         <thead>
           <tr><th style="width:90px;">과목</th><th style="width:180px;">주제</th><th>내용</th></tr>
         </thead>
         <tbody id="notion-curriculum-list">
           <!-- NOTION:CURRICULUM:START -->
           <tr>
-            <td class="curr-week"><span style="font-weight:700;">생셩형 AI</span></td>
-            <td class="curr-topic">인공지능으로 만들기</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 1</td>
+            <td class="curr-topic">오리엔테이션 · SW 기초</td>
+            <td class="curr-desc">수업 소개, 개발 환경 세팅, 컴퓨팅 사고력 맛보기</td>
           </tr>
           <tr>
-            <td class="curr-week"><span style="font-weight:700;">핑퐁</span></td>
-            <td class="curr-topic">핑퐁 스크래치</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 2–3</td>
+            <td class="curr-topic">파이썬 기초</td>
+            <td class="curr-desc">변수·조건문·반복문, 실습 위주 문제풀이</td>
           </tr>
           <tr>
-            <td class="curr-week"><span style="font-weight:700;">할로코드</span></td>
-            <td class="curr-topic">해저 탐험</td>
-            <td class="curr-desc"></td>
+            <td class="curr-week">Week 4–5</td>
+            <td class="curr-topic">AI 영상 만들기</td>
+            <td class="curr-desc">생성형 AI 툴로 영상 제작, 패들렛에 결과물 공유</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 6–8</td>
+            <td class="curr-topic">AI 바이브코딩 프로젝트</td>
+            <td class="curr-desc">팀 프로젝트로 인터랙티브 웹 콘텐츠 제작</td>
+          </tr>
+          <tr>
+            <td class="curr-week">Week 9</td>
+            <td class="curr-topic">발표 & 리뷰</td>
+            <td class="curr-desc">결과물 발표, 동료 리뷰 및 피드백</td>
           </tr>
           <!-- NOTION:CURRICULUM:END -->
         </tbody>
       </table>
-      <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:14px;">* 세부 내용은 진행 상황에 따라 조정될 수 있습니다.</p>
+      <p style="font-family:var(--mono); font-size:12px; color:var(--ink-soft); margin-top:14px;">* 세부 일정은 진행 상황에 따라 조정될 수 있습니다.</p>
     </div>
   </section>
 
   <!-- CLASS NOTES -->
   <section id="notes">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <div class="section-num">03 · Notes</div>
           <h2>오늘의 수업 메모</h2>
         </div>
       </div>
-      <div class="notes-card">
-        <div class="notes-date"><!-- NOTION:DATE:START -->
-2026.08.10 · TODAY
-          <!-- NOTION:DATE:END --></div>
+      <div class="notes-card reveal">
+        <div class="notes-date"><!-- NOTION:DATE:START -->2026.08.07 · TODAY<!-- NOTION:DATE:END --></div>
         <ul class="notes-list" id="notion-notes-list">
           <!-- NOTION:NOTES:START -->
-          <li><span class="chk"></span><span>안녕하세요</span></li>
+          <li><span class="chk done"></span><span>지난 시간 과제 리뷰</span></li>
+          <li><span class="chk"></span><span>AI 바이브코딩 프로젝트 중간 점검</span></li>
+          <li><span class="chk"></span><span>패들렛에 오늘 실습 결과 업로드 안내</span></li>
           <!-- NOTION:NOTES:END -->
         </ul>
       </div>
@@ -370,29 +406,29 @@
   <!-- PADLET -->
   <section id="padlet">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <div class="section-num">04 · Padlet</div>
           <h2>패들렛 바로가기</h2>
         </div>
       </div>
-      <div class="link-grid" id="notion-padlet-list">
+      <div class="link-grid reveal-group" id="notion-padlet-list">
         <!-- NOTION:PADLET:START -->
-        <a class="link-card" href="https://padlet.com/79ioun/ai-jge61j95pyzk6hae" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca8002a05bfd14ae189b14.jpg" alt="AI 영상 만들기" /></div>
+        <a class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · AI 영상</div>
           <div class="link-body">
             <h3>AI 영상 만들기 <span class="link-arrow">↗</span></h3>
-            <p>AI 영상 수업 자료</p>
+            <p>수강생들이 만든 AI 생성 영상 결과물 모음</p>
           </div>
         </a>
-        <a class="link-card" href="https://padlet.com/79ioun/padlet-i89hu0illjpc3cai" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca8089985ce1186fe09c4b.jpg" alt="인공지능" /></div>
+        <a class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">PADLET · 인공지능</div>
           <div class="link-body">
             <h3>인공지능 <span class="link-arrow">↗</span></h3>
             <p>인공지능 개념 정리 및 실습 자료 공유 보드</p>
           </div>
         </a>
-          <!-- NOTION:PADLET:END -->
+        <!-- NOTION:PADLET:END -->
       </div>
     </div>
   </section>
@@ -400,36 +436,29 @@
   <!-- AI 바이브코딩 -->
   <section id="vibecoding">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <div>
           <div class="section-num">05 · Projects</div>
           <h2>AI 바이브코딩</h2>
         </div>
       </div>
-      <div class="link-grid" id="notion-vibecoding-list">
+      <div class="link-grid reveal-group" id="notion-vibecoding-list">
         <!-- NOTION:VIBECODING:START -->
-        <a class="link-card" href="https://79ioun.github.io/mystery-files/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca80a6b921f1a282507cda.png" alt="미스터리 파일즈" /></div>
+        <a class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 미스터리 파일즈</div>
           <div class="link-body">
             <h3>미스터리 파일즈 <span class="link-arrow">↗</span></h3>
-            <p>미스터리 퀴즈</p>
+            <p>그림과 속에 전설 — 팀 프로젝트 인터랙티브 스토리</p>
           </div>
         </a>
-        <a class="link-card" href="https://79ioun.github.io/region-escape/" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca80e2b327c82dadf5d945.jpg" alt="지역 방탈출" /></div>
+        <a class="link-card reveal" href="#" target="_blank" rel="noopener">
+          <div class="link-thumb">&lt;/&gt; 지역 방탈출</div>
           <div class="link-body">
             <h3>지역 방탈출 <span class="link-arrow">↗</span></h3>
-            <p>우리 지역 소재를 활용한 웹 방탈출</p>
+            <p>우리 지역 소재를 활용한 웹 방탈출 게임 제작</p>
           </div>
         </a>
-        <a class="link-card" href="https://script.google.com/macros/s/AKfycbzv_HObN0-d9K7JwPaczvBQhzd4U10LOHH0-srqw4eHhXm5WhITxnqN0pvGXiZ8TINd7g/exec" target="_blank" rel="noopener">
-          <div class="link-thumb"><img src="images/link-3b5b3179f6ca803a9c12f3182c6c69bf.png" alt="디튜 요청서" /></div>
-          <div class="link-body">
-            <h3>디튜 요청서 <span class="link-arrow">↗</span></h3>
-            <p>수업 지원을 위한</p>
-          </div>
-        </a>
-          <!-- NOTION:VIBECODING:END -->
+        <!-- NOTION:VIBECODING:END -->
       </div>
     </div>
   </section>
@@ -437,7 +466,7 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="wrap">
-      <div class="contact-box">
+      <div class="contact-box reveal">
         <div>
           <h2>함께 강의를 만들어봐요</h2>
 
@@ -508,6 +537,22 @@
       setTimeout(step, 18);
     }
     step();
+  }
+
+  // ── 스크롤하면 살짝 나타나는 효과 ──
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
   }
 </script>
 
