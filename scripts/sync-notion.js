@@ -237,7 +237,7 @@ async function syncLinks(html) {
 
   const res = await notion.databases.query({
     database_id: NOTION_LINKS_DB_ID,
-    sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
+    sorts: [{ timestamp: 'created_time', direction: 'descending' }],
   });
 
   const items = [];
